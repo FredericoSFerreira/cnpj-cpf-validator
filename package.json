@@ -1,0 +1,54 @@
+{
+  "name": "cnpj-cpf-validator",
+  "version": "1.0.0",
+  "description": "A TypeScript/JavaScript library for validating and formatting Brazilian CPF and CNPJ numbers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "build:esm": "tsc -p tsconfig.esm.json && tsc-alias -p tsconfig.esm.json && cp dist/index.js dist/index.mjs && npm run build",
+    "build:all": "npm run build && npm run build:esm",
+    "prepublishOnly": "npm run build:all",
+    "test": "node tests/test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "tsc-alias": "^1.8.8"
+  },
+  "keywords": [
+    "cpf",
+    "cnpj",
+    "validator",
+    "formatter",
+    "brazil",
+    "brazilian",
+    "document",
+    "validation",
+    "alphanumeric"
+  ],
+  "author": "Frederico Ferreira",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FredericoSFerreira/cnpj-cpf-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FredericoSFerreira/cnpj-cpf-validator/issues"
+  },
+  "homepage": "https://github.com/FredericoSFerreira/cnpj-cpf-validator#readme",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "private": false
+}
