@@ -1,7 +1,5 @@
-# Validador de CNPJ/CPF [![codecov](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator/branch/main/graph/badge.svg?token=MBIO51G1JR)](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=flat) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
-
-
-
+# Validador de CNPJ/CPF 
+[![codecov](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator/branch/main/graph/badge.svg?token=MBIO51G1JR)](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=flat) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
 
 
 Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e CNPJ brasileiros.
