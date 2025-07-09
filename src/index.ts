@@ -124,7 +124,7 @@ function getCharValue(char: string): number {
  * @param cnpj The cleaned CNPJ string
  * @returns True if the CNPJ contains letters, false otherwise
  */
-function isAlphanumericCNPJ(cnpj: string): boolean {
+export function isAlphanumericCNPJ(cnpj: string): boolean {
   return /[a-zA-Z]/.test(cnpj);
 }
 

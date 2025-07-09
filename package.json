@@ -1,7 +1,7 @@
 {
   "name": "cnpj-cpf-validator",
   "version": "1.0.0",
-  "description": "A TypeScript/JavaScript library for validating and formatting Brazilian CPF and CNPJ numbers",
+  "description": "Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e com suporte a CNPJ alfanumericos",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
@@ -17,10 +17,14 @@
     "build:esm": "tsc -p tsconfig.esm.json && tsc-alias -p tsconfig.esm.json && cp dist/index.js dist/index.mjs && npm run build",
     "build:all": "npm run build && npm run build:esm",
     "prepublishOnly": "npm run build:all",
-    "test": "node tests/test.js"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.5.3",
     "tsc-alias": "^1.8.8"
   },
@@ -33,7 +37,8 @@
     "brazilian",
     "document",
     "validation",
-    "alphanumeric"
+    "alphanumeric",
+    "alfanumerico"
   ],
   "author": "Frederico Ferreira",
   "license": "MIT",

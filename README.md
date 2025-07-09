@@ -52,65 +52,17 @@ A Receita Federal do Brasil anunciou mudanças no formato do CNPJ que começarã
 
 ```javascript
 const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
-
-// Validação de CPF
-console.log(isValidCPF('529.982.247-25')); // true
-console.log(isValidCPF('52998224725')); // true
-console.log(isValidCPF('111.111.111-11')); // false (CPF inválido)
-
-// Formatação de CPF
-console.log(formatCPF('52998224725')); // '529.982.247-25'
-
-// Validação de CNPJ (formato numérico tradicional)
-console.log(isValidCNPJ('11.222.333/0001-81')); // true
-console.log(isValidCNPJ('11222333000181')); // true
-console.log(isValidCNPJ('11.111.111/1111-11')); // false (CNPJ inválido)
-
-// Formatação de CNPJ (formato numérico tradicional)
-console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
-
-// Validação de CNPJ (novo formato alfanumérico)
-console.log(isValidCNPJ('A1B2.C3D4.E5F6/G7H8-01')); // true
-console.log(isValidCNPJ('A1B2C3D4E5F6G7H801')); // true
-
-// Formatação de CNPJ (novo formato alfanumérico)
-console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
 ```
 
 ### JavaScript (ES Modules)
 
 ```javascript
 import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
-
-// Validação de CPF
-console.log(isValidCPF('529.982.247-25')); // true
-console.log(isValidCPF('52998224725')); // true
-console.log(isValidCPF('111.111.111-11')); // false (CPF inválido)
-
-// Formatação de CPF
-console.log(formatCPF('52998224725')); // '529.982.247-25'
-
-// Validação de CNPJ (formato numérico tradicional)
-console.log(isValidCNPJ('11.222.333/0001-81')); // true
-console.log(isValidCNPJ('11222333000181')); // true
-console.log(isValidCNPJ('11.111.111/1111-11')); // false (CNPJ inválido)
-
-// Formatação de CNPJ (formato numérico tradicional)
-console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
-
-// Validação de CNPJ (novo formato alfanumérico)
-console.log(isValidCNPJ('A1B2.C3D4.E5F6/G7H8-01')); // true
-console.log(isValidCNPJ('A1B2C3D4E5F6G7H801')); // true
-
-// Formatação de CNPJ (novo formato alfanumérico)
-console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
 ```
 
-### TypeScript
+### Exemplos de uso (ES Modules)
 
-```typescript
-import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
-
+```javascript
 // Validação de CPF
 console.log(isValidCPF('529.982.247-25')); // true
 console.log(isValidCPF('52998224725')); // true
@@ -216,6 +168,42 @@ Remove todos os caracteres não alfanuméricos de uma string.
 
 - **value**: A string a ser limpa
 - **Retorna**: Uma string contendo apenas letras e números
+
+## Testes
+
+Para executar os testes:
+
+```bash
+npm test
+```
+
+Para executar os testes com cobertura:
+
+```bash
+npm run test:coverage
+```
+
+## CI/CD
+
+Este projeto utiliza GitHub Actions para integração contínua e entrega contínua. O workflow automatiza:
+
+1. Execução de testes com cobertura
+2. Publicação automática no npm quando uma nova tag é criada
+
+### Publicação Automática
+
+Para publicar uma nova versão:
+
+1. Atualize a versão no `package.json`
+2. Crie uma tag com o prefixo `v` seguido da versão (ex: `v1.0.1`)
+3. Faça push da tag para o GitHub
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+**Nota:** É necessário configurar o segredo `NPM_TOKEN` nas configurações do repositório GitHub para permitir a publicação automática no npm.
 
 ## Licença
 

@@ -4,3 +4,4 @@ tests
 jest.config.js
 tsconfig.json
 .git
+coverage
