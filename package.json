@@ -1,7 +1,7 @@
 {
   "name": "cnpj-cpf-validator",
   "version": "1.0.1",
-  "description": "Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e com suporte a CNPJ alfanumericos",
+  "description": "Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e CNPJ já com o suporte aos novos CNPJ alfanuméricos.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
@@ -29,6 +29,7 @@
     "tsc-alias": "^1.8.8"
   },
   "keywords": [
+    "node",
     "cpf",
     "cnpj",
     "validator",
