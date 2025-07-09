@@ -62,7 +62,7 @@ const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-val
 import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
 ```
 
-### Exemplos de uso (ES Modules)
+### Exemplos de uso
 
 ```javascript
 // Validação de CPF
