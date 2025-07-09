@@ -1,6 +1,10 @@
-# Validador de CNPJ/CPF
+# Validador de CNPJ/CPF [![codecov](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator/branch/main/graph/badge.svg?token=MBIO51G1JR)](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=flat) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
 
-Uma biblioteca TypeScript/JavaScript para validar e formatar números de CPF e CNPJ brasileiros.
+
+
+
+
+Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e CNPJ brasileiros.
 
 ## Instalação
 
@@ -183,27 +187,6 @@ Para executar os testes com cobertura:
 npm run test:coverage
 ```
 
-## CI/CD
-
-Este projeto utiliza GitHub Actions para integração contínua e entrega contínua. O workflow automatiza:
-
-1. Execução de testes com cobertura
-2. Publicação automática no npm quando uma nova tag é criada
-
-### Publicação Automática
-
-Para publicar uma nova versão:
-
-1. Atualize a versão no `package.json`
-2. Crie uma tag com o prefixo `v` seguido da versão (ex: `v1.0.1`)
-3. Faça push da tag para o GitHub
-
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-**Nota:** É necessário configurar o segredo `NPM_TOKEN` nas configurações do repositório GitHub para permitir a publicação automática no npm.
 
 ## Licença
 
