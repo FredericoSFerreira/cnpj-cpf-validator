@@ -1,5 +1,10 @@
 # Validador de CNPJ/CPF 
-[![codecov](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator/branch/main/graph/badge.svg?token=MBIO51G1JR)](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=flat) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
+
+[🇧🇷 Leia em Português](#pt-br---documentação-em-português) • [🇺🇸 Read in English](#en---documentation-in-english)
+
+[![codecov](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator/branch/main/graph/badge.svg?token=MBIO51G1JR)](https://codecov.io/gh/FredericoSFerreira/cnpj-cpf-validator) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white&style=flat) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat) [![NPM downloads](https://img.shields.io/npm/dm/cnpj-cpf-validator.svg)](https://www.npmjs.com/package/cnpj-cpf-validator) [![License](https://img.shields.io/npm/l/cnpj-cpf-validator.svg)](https://github.com/seu-usuario/seu-repo/blob/main/LICENSE)
+
+## PT-BR - Documentação em Português
 
 
 Uma biblioteca TypeScript/JavaScript/Node para validar e formatar números de CPF e CNPJ já com o suporte aos novos CNPJ alfanuméricos.
@@ -187,5 +192,194 @@ npm run test:coverage
 
 
 ## Licença
+
+MIT
+
+## EN - Documentation in English
+
+A TypeScript/JavaScript/Node library for validating and formatting CPF and CNPJ numbers with support for the new alphanumeric CNPJ format.
+
+## Installation
+
+```bash
+npm install cnpj-cpf-validator
+# or
+yarn add cnpj-cpf-validator
+# or
+pnpm add cnpj-cpf-validator
+```
+
+## Features
+
+- Validation of CPF and CNPJ numbers
+- Formatting of CPF and CNPJ numbers with standard masks
+- Cleaning of CPF and CNPJ numbers (removal of non-numeric characters)
+- TypeScript support with type definitions
+- Zero dependencies
+- Works in Node.js and browsers
+- Supports both CommonJS and ES Modules
+- **Support for the new alphanumeric CNPJ format** (starting July 2026)
+
+## New alphanumeric CNPJ format (starting July 2026)
+
+The Brazilian Federal Revenue Service announced changes to the CNPJ format that will take effect from July 2026. The main change is the introduction of the alphanumeric CNPJ, which will include letters, in addition to numbers, in its composition.
+
+### How the new CNPJ will work:
+
+- **Alphanumeric Format**: The CNPJ will continue to have 14 characters, but:
+  - The first eight positions, which form the root of the CNPJ (company identification), may contain both letters and numbers.
+  - The next four positions, which indicate the establishment order (headquarters or branch), will also be alphanumeric.
+  - The last two positions, which are the verification digits (used to validate the authenticity of the CNPJ), will continue to be exclusively numeric.
+
+- **Format Coexistence**: Existing CNPJs (numeric only) will remain valid. The new alphanumeric format will be implemented only for new registrations from July 2026. The two formats (numeric and alphanumeric) will coexist.
+
+### Examples of alphanumeric CNPJs:
+
+- `A1B2.C3D4.E5F6/G7H8-01`
+- `ZX98.WV76.UT54/SR32-99`
+- `12AB.34CD.56EF/78GH-10`
+- `XYZW.ABCD.EFGH/IJKL-23`
+- `PQR0.STU1.VWX2/YZA3-45`
+
+**This library already supports validation and formatting of alphanumeric CNPJs!**
+
+## Usage
+
+### JavaScript (CommonJS)
+
+```javascript
+const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
+```
+
+### JavaScript (ES Modules)
+
+```javascript
+import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
+```
+
+### Usage Examples
+
+```javascript
+// CPF Validation
+console.log(isValidCPF('529.982.247-25')); // true
+console.log(isValidCPF('52998224725')); // true
+console.log(isValidCPF('111.111.111-11')); // false (Invalid CPF)
+
+// CPF Formatting
+console.log(formatCPF('52998224725')); // '529.982.247-25'
+
+// CNPJ Validation (traditional numeric format)
+console.log(isValidCNPJ('11.222.333/0001-81')); // true
+console.log(isValidCNPJ('11222333000181')); // true
+console.log(isValidCNPJ('11.111.111/1111-11')); // false (Invalid CNPJ)
+
+// CNPJ Formatting (traditional numeric format)
+console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
+
+// CNPJ Validation (new alphanumeric format)
+console.log(isValidCNPJ('A1B2.C3D4.E5F6/G7H8-01')); // true
+console.log(isValidCNPJ('A1B2C3D4E5F6G7H801')); // true
+
+// CNPJ Formatting (new alphanumeric format)
+console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+```
+
+## API
+
+### CPF Functions
+
+#### `isValidCPF(cpf: string): boolean`
+
+Validates if a CPF number is valid.
+
+- **cpf**: The CPF number to be validated (can be formatted or contain only numbers)
+- **Returns**: True if the CPF is valid, false otherwise
+
+#### `formatCPF(cpf: string): string`
+
+Formats a CPF number with the standard mask (XXX.XXX.XXX-XX).
+
+- **cpf**: The CPF number to be formatted (can be formatted or contain only numbers)
+- **Returns**: The formatted CPF or an empty string if invalid
+
+#### `cleanCPF(cpf: string): string`
+
+Removes any non-numeric characters from a CPF.
+
+- **cpf**: The CPF to be cleaned
+- **Returns**: A string containing only the numbers of the CPF
+
+### CNPJ Functions
+
+#### `isValidCNPJ(cnpj: string): boolean`
+
+Validates if a CNPJ number is valid (supports both the traditional numeric format and the new alphanumeric format).
+
+- **cnpj**: The CNPJ number to be validated (can be formatted or contain only numbers/letters)
+- **Returns**: True if the CNPJ is valid, false otherwise
+
+#### `formatCNPJ(cnpj: string): string`
+
+Formats a CNPJ number with the standard mask (XX.XXX.XXX/XXXX-XX).
+
+- **cnpj**: The CNPJ number to be formatted (can be formatted or contain only numbers/letters)
+- **Returns**: The formatted CNPJ or an empty string if invalid
+
+#### `cleanCNPJ(cnpj: string): string`
+
+Removes formatting characters from a CNPJ.
+- For numeric CNPJs: removes all non-numeric characters
+- For alphanumeric CNPJs: removes all non-alphanumeric characters
+
+- **cnpj**: The CNPJ to be cleaned
+- **Returns**: A string containing only the alphanumeric characters of the CNPJ
+
+### Combined Functions
+
+#### `isValidDocument(document: string): boolean`
+
+Validates if a document number is a valid CPF or CNPJ.
+
+- **document**: The document number to be validated (can be formatted or contain only numbers/letters)
+- **Returns**: True if the document is a valid CPF or CNPJ, false otherwise
+
+#### `formatDocument(document: string): string`
+
+Formats a document number as CPF or CNPJ based on its characteristics.
+
+- **document**: The document number to be formatted (can be formatted or contain only numbers/letters)
+- **Returns**: The formatted document or an empty string if invalid
+
+### Utility Functions
+
+#### `cleanNumbers(value: string): string`
+
+Removes all non-numeric characters from a string.
+
+- **value**: The string to be cleaned
+- **Returns**: A string containing only numbers
+
+#### `cleanAlphanumeric(value: string): string`
+
+Removes all non-alphanumeric characters from a string.
+
+- **value**: The string to be cleaned
+- **Returns**: A string containing only letters and numbers
+
+## Tests
+
+To run the tests:
+
+```bash
+npm test
+```
+
+To run the tests with coverage:
+
+```bash
+npm run test:coverage
+```
+
+## License
 
 MIT
