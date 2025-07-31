@@ -106,17 +106,17 @@ export function cleanCPF(cpf: string): string {
  * Converts a character to its numeric value for CNPJ validation
  * For digits: returns the digit value
  * For letters: returns ASCII code - 48 (as per new CNPJ rules)
+ * 
+ * Conforme documentação da Receita Federal do Brasil e Serpro:
+ * Para cada um dos caracteres do CNPJ, atribuir o valor da coluna "Valor para cálculo do DV",
+ * obtido subtraindo 48 do código ASCII do caractere.
+ * 
  * @param char The character to convert
  * @returns The numeric value
  */
 function getCharValue(char: string): number {
   const charCode = char.charCodeAt(0);
-  // If it's a digit (0-9), return its numeric value
-  if (charCode >= 48 && charCode <= 57) {
-    return charCode - 48;
-  }
-  // If it's a letter, return ASCII code - 48
-  return charCode - 48;
+  return charCode - 48; // Subtrair 48 do código ASCII conforme documentação oficial
 }
 
 /**
@@ -157,49 +157,58 @@ export function isValidCNPJ(cnpj: string): boolean {
   }
 
   // Validate first verification digit
-  let size = cleanCNPJ.length - 2;
+  let size = cleanCNPJ.length - 2; // 12 primeiros caracteres
   let numbers = cleanCNPJ.substring(0, size);
-  const digits = cleanCNPJ.substring(size);
+  const digits = cleanCNPJ.substring(size); // 2 últimos dígitos verificadores
+
+  // Cálculo do primeiro dígito verificador
+  // Pesos 5,4,3,2,9,8,7,6,5,4,3,2 da direita para a esquerda
   let sum = 0;
-  let pos = size - 7;
+  let weight = 2;
 
-  for (let i = size; i >= 1; i--) {
-    // Use getCharValue for alphanumeric support
+  // Percorre os dígitos da direita para a esquerda
+  for (let i = size - 1; i >= 0; i--) {
     const charValue = hasLetters
-      ? getCharValue(numbers.charAt(size - i))
-      : parseInt(numbers.charAt(size - i));
+      ? getCharValue(numbers.charAt(i))
+      : parseInt(numbers.charAt(i));
 
-    sum += charValue * pos--;
-    if (pos < 2) {
-      pos = 9;
-    }
+    sum += charValue * weight;
+
+    // Incrementa o peso, voltando para 2 após chegar a 9
+    weight = weight === 9 ? 2 : weight + 1;
   }
 
-  let result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+  // Cálculo do dígito usando módulo 11
+  let remainder = sum % 11;
+  let result = remainder < 2 ? 0 : 11 - remainder;
+
   if (result !== parseInt(digits.charAt(0))) {
-    /* istanbul ignore next */
     return false;
   }
 
   // Validate second verification digit
-  size = size + 1;
+  size = size + 1; // Inclui o primeiro dígito verificador
   numbers = cleanCNPJ.substring(0, size);
+
+  // Cálculo do segundo dígito verificador
   sum = 0;
-  pos = size - 7;
+  weight = 2;
 
-  for (let i = size; i >= 1; i--) {
-    // Use getCharValue for alphanumeric support
+  // Percorre os dígitos da direita para a esquerda
+  for (let i = size - 1; i >= 0; i--) {
     const charValue = hasLetters
-      ? getCharValue(numbers.charAt(size - i))
-      : parseInt(numbers.charAt(size - i));
+      ? getCharValue(numbers.charAt(i))
+      : parseInt(numbers.charAt(i));
 
-    sum += charValue * pos--;
-    if (pos < 2) {
-      pos = 9;
-    }
+    sum += charValue * weight;
+
+    // Incrementa o peso, voltando para 2 após chegar a 9
+    weight = weight === 9 ? 2 : weight + 1;
   }
 
-  result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+  // Cálculo do dígito usando módulo 11
+  remainder = sum % 11;
+  result = remainder < 2 ? 0 : 11 - remainder;
 
   return result === parseInt(digits.charAt(1));
 }

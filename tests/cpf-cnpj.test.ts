@@ -85,7 +85,8 @@ describe('CNPJ Functions', () => {
     const invalidAlphanumericCNPJs: string[] = [
         'A1B2.C3D4.E5F6/G7H8-AB', // Non-numeric check digits
         'A1B2C3D4E5F6G7H8',       // Too short
-        'A1B2C3D4E5F6G7H8901234'  // Too long
+        'A1B2C3D4E5F6G7H8901234',  // Too long,
+        'PQ.R0S.TU1/VWX2-61' // incorrect digit verification
     ];
 
     test('should validate valid numeric CNPJs correctly', () => {
@@ -214,4 +215,23 @@ describe('TypeScript Type Checking', () => {
         expect(typeof isValidDocumentResult).toBe('boolean');
         expect(typeof formattedDocument).toBe('string');
     });
+});
+
+describe('CNPJ Digit Verification Calculation Tests', () => {
+
+  test('should validate an alphanumeric CNPJ with manually calculated verification digits', () => {
+    expect(isValidCNPJ('ABCDEFGHIJKL80')).toBe(true);
+  });
+
+  test('should validate specific alphanumeric CNPJs with known verification digits', () => {
+    expect(isValidCNPJ('A1B2C3D4E5F668')).toBe(true);
+    expect(isValidCNPJ('XYZWABCDEFGH26')).toBe(true);
+    expect(isValidCNPJ('PQR0STU1VWX262')).toBe(true); // Este deve falhar se os dígitos não foram calculados corretamente
+  });
+
+  test('should reject alphanumeric CNPJs with incorrect verification digits', () => {
+    expect(isValidCNPJ('ABCDEFGHIJKL99')).toBe(false); // Dígitos verificadores incorretos
+    expect(isValidCNPJ('A1B2C3D4E5F667')).toBe(false); // Segundo dígito incorreto
+    expect(isValidCNPJ('XYZWABCDEFGH25')).toBe(false); // Segundo dígito incorreto
+  });
 });

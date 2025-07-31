@@ -43,13 +43,18 @@ A Receita Federal do Brasil anunciou mudanças no formato do CNPJ que começarã
 
 - **Convivência de formatos**: Os CNPJs já existentes (apenas numéricos) permanecerão válidos. O novo formato alfanumérico será implementado apenas para novas inscrições a partir de julho de 2026. Os dois formatos (numérico e alfanumérico) vão coexistir.
 
+- **Cálculo do dígito verificador**: O cálculo dos dígitos verificadores para o novo formato segue a metodologia oficial definida pela Receita Federal do Brasil:
+  - Cada caractere alfanumérico é convertido para um valor numérico, subtraindo 48 do seu código ASCII.
+  - O algoritmo de cálculo continua utilizando módulo 11, como já é feito para o CNPJ tradicional.
+  - Os pesos utilizados no cálculo variam de 2 a 9, aplicados da direita para a esquerda.
+
 ### Exemplos de CNPJs alfanuméricos:
 
-- `A1B2.C3D4.E5F6/G7H8-01`
-- `ZX98.WV76.UT54/SR32-99`
-- `12AB.34CD.56EF/78GH-10`
-- `XYZW.ABCD.EFGH/IJKL-23`
-- `PQR0.STU1.VWX2/YZA3-45`
+- `EH.DFG.8RN/WE9R-72`
+- `LV.8M6.HCI/PGAQ-44`
+- `7O.5N4.UWS/K3TC-01`
+- `MP.AT5.VAL/3E3V-50`
+- `FX.606.5AU/CP8N-49`
 
 **Esta biblioteca já suporta a validação e formatação de CNPJs alfanuméricos!**
 
@@ -87,8 +92,8 @@ console.log(isValidCNPJ('11.111.111/1111-11')); // false (CNPJ inválido)
 console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
 
 // Validação de CNPJ (novo formato alfanumérico)
-console.log(isValidCNPJ('A1B2.C3D4.E5F6/G7H8-01')); // true
-console.log(isValidCNPJ('A1B2C3D4E5F6G7H801')); // true
+console.log(isValidCNPJ('9L.VBX.IIJ/0POW-08')); // true
+console.log(isValidCNPJ('O0O6Q7X1CXHE83')); // true
 
 // Formatação de CNPJ (novo formato alfanumérico)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
@@ -235,11 +240,11 @@ The Brazilian Federal Revenue Service announced changes to the CNPJ format that 
 
 ### Examples of alphanumeric CNPJs:
 
-- `A1B2.C3D4.E5F6/G7H8-01`
-- `ZX98.WV76.UT54/SR32-99`
-- `12AB.34CD.56EF/78GH-10`
-- `XYZW.ABCD.EFGH/IJKL-23`
-- `PQR0.STU1.VWX2/YZA3-45`
+- `EH.DFG.8RN/WE9R-72`
+- `LV.8M6.HCI/PGAQ-44`
+- `7O.5N4.UWS/K3TC-01`
+- `MP.AT5.VAL/3E3V-50`
+- `FX.606.5AU/CP8N-49`
 
 **This library already supports validation and formatting of alphanumeric CNPJs!**
 
@@ -277,8 +282,8 @@ console.log(isValidCNPJ('11.111.111/1111-11')); // false (Invalid CNPJ)
 console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
 
 // CNPJ Validation (new alphanumeric format)
-console.log(isValidCNPJ('A1B2.C3D4.E5F6/G7H8-01')); // true
-console.log(isValidCNPJ('A1B2C3D4E5F6G7H801')); // true
+console.log(isValidCNPJ('RQ.KX9.6B3/8UOV-71')); // true
+console.log(isValidCNPJ('PI4NRZRZTLMH10')); // true
 
 // CNPJ Formatting (new alphanumeric format)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
