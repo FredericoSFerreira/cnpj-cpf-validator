@@ -1,4 +1,4 @@
-# Validador de CNPJ/CPF 
+# Validador de CNPJ/CPF
 
 [🇧🇷 Leia em Português](#pt-br---documentação-em-português) • [🇺🇸 Read in English](#en---documentation-in-english)
 
@@ -23,6 +23,7 @@ pnpm add cnpj-cpf-validator
 
 - Validação de números de CPF e CNPJ
 - Formatação de números de CPF e CNPJ com máscaras padrão
+- Formatação de CPF e CNPJ de forma gradual para uso em inputs
 - Limpeza de números de CPF e CNPJ (remoção de caracteres não numéricos)
 - Suporte a TypeScript com definições de tipos
 - Zero dependências
@@ -63,13 +64,13 @@ A Receita Federal do Brasil anunciou mudanças no formato do CNPJ que começarã
 ### JavaScript (CommonJS)
 
 ```javascript
-const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
+const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } = require('cnpj-cpf-validator');
 ```
 
 ### JavaScript (ES Modules)
 
 ```javascript
-import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
+import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } from 'cnpj-cpf-validator';
 ```
 
 ### Exemplos de uso
@@ -82,6 +83,7 @@ console.log(isValidCPF('111.111.111-11')); // false (CPF inválido)
 
 // Formatação de CPF
 console.log(formatCPF('52998224725')); // '529.982.247-25'
+console.log(formatCPF('5299', true)); // '529.9'
 
 // Validação de CNPJ (formato numérico tradicional)
 console.log(isValidCNPJ('11.222.333/0001-81')); // true
@@ -90,6 +92,7 @@ console.log(isValidCNPJ('11.111.111/1111-11')); // false (CNPJ inválido)
 
 // Formatação de CNPJ (formato numérico tradicional)
 console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
+console.log(formatCNPJ('112223', true)); // '11.222.3'
 
 // Validação de CNPJ (novo formato alfanumérico)
 console.log(isValidCNPJ('9L.VBX.IIJ/0POW-08')); // true
@@ -97,6 +100,16 @@ console.log(isValidCNPJ('O0O6Q7X1CXHE83')); // true
 
 // Formatação de CNPJ (novo formato alfanumérico)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+console.log(formatCNPJ('A1B2C3D4E', true)); // 'A1.B2C.3D4/E'
+
+// Formatação de documento com detecção automática
+console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+console.log(formatDocument('52998224725')); // '529.982.247-25'
+console.log(formatDocument('A1B2C3D4E5F', true)); // 'A1.B2C.3D4/E5F' = CNPJ alfanumérico com tamanho de CPF
+console.log(formatDocument('52998', true)); // '529.98'
+console.log(formatDocument('45283163000', true)); // '452.831.630-00' = CNPJ numérico com tamanho de CPF,
+                                                  //                    temporariamente formatado como CPF
+console.log(formatDocument('452831630001', true)); // '45.283.163/0001'
 ```
 
 ## API
@@ -218,6 +231,7 @@ pnpm add cnpj-cpf-validator
 
 - Validation of CPF and CNPJ numbers
 - Formatting of CPF and CNPJ numbers with standard masks
+- Gradual formatting of CPF and CNPJ numbers for use in input fields.
 - Cleaning of CPF and CNPJ numbers (removal of non-numeric characters)
 - TypeScript support with type definitions
 - Zero dependencies
@@ -287,6 +301,15 @@ console.log(isValidCNPJ('PI4NRZRZTLMH10')); // true
 
 // CNPJ Formatting (new alphanumeric format)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+
+// Document formatting with automatic detection
+console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+console.log(formatDocument('52998224725')); // '529.982.247-25'
+console.log(formatDocument('A1B2C3D4E5F', true)); // 'A1.B2C.3D4/E5F' = Alphanumeric CNPJ with the size of a CPF.
+console.log(formatDocument('52998', true)); // '529.98'
+console.log(formatDocument('45283163000', true)); // '452.831.630-00' = Alphanumeric CNPJ with the size of a CPF,
+                                                  //                    temporarily formatted as a CPF.
+console.log(formatDocument('452831630001', true)); // '45.283.163/0001'
 ```
 
 ## API
