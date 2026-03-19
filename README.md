@@ -1,4 +1,4 @@
-# Validador de CNPJ/CPF 
+# Validador de CNPJ/CPF
 
 [🇧🇷 Leia em Português](#pt-br---documentação-em-português) • [🇺🇸 Read in English](#en---documentation-in-english)
 
@@ -63,13 +63,13 @@ A Receita Federal do Brasil anunciou mudanças no formato do CNPJ que começarã
 ### JavaScript (CommonJS)
 
 ```javascript
-const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
+const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } = require('cnpj-cpf-validator');
 ```
 
 ### JavaScript (ES Modules)
 
 ```javascript
-import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
+import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } from 'cnpj-cpf-validator';
 ```
 
 ### Exemplos de uso
@@ -97,6 +97,10 @@ console.log(isValidCNPJ('O0O6Q7X1CXHE83')); // true
 
 // Formatação de CNPJ (novo formato alfanumérico)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+
+// Formatação de documento com detecção automática
+console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+console.log(formatDocument('52998224725')); // '529.982.247-25'
 ```
 
 ## API
@@ -253,13 +257,13 @@ The Brazilian Federal Revenue Service announced changes to the CNPJ format that 
 ### JavaScript (CommonJS)
 
 ```javascript
-const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
+const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } = require('cnpj-cpf-validator');
 ```
 
 ### JavaScript (ES Modules)
 
 ```javascript
-import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
+import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } from 'cnpj-cpf-validator';
 ```
 
 ### Usage Examples
@@ -287,6 +291,10 @@ console.log(isValidCNPJ('PI4NRZRZTLMH10')); // true
 
 // CNPJ Formatting (new alphanumeric format)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+
+// Document formatting with automatic detection
+console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
+console.log(formatDocument('52998224725')); // '529.982.247-25'
 ```
 
 ## API
