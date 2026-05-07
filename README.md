@@ -23,7 +23,6 @@ pnpm add cnpj-cpf-validator
 
 - Validação de números de CPF e CNPJ
 - Formatação de números de CPF e CNPJ com máscaras padrão
-- Formatação de CPF e CNPJ de forma gradual para uso em inputs
 - Limpeza de números de CPF e CNPJ (remoção de caracteres não numéricos)
 - Suporte a TypeScript com definições de tipos
 - Zero dependências
@@ -83,7 +82,6 @@ console.log(isValidCPF('111.111.111-11')); // false (CPF inválido)
 
 // Formatação de CPF
 console.log(formatCPF('52998224725')); // '529.982.247-25'
-console.log(formatCPF('5299', true)); // '529.9'
 
 // Validação de CNPJ (formato numérico tradicional)
 console.log(isValidCNPJ('11.222.333/0001-81')); // true
@@ -92,7 +90,6 @@ console.log(isValidCNPJ('11.111.111/1111-11')); // false (CNPJ inválido)
 
 // Formatação de CNPJ (formato numérico tradicional)
 console.log(formatCNPJ('11222333000181')); // '11.222.333/0001-81'
-console.log(formatCNPJ('112223', true)); // '11.222.3'
 
 // Validação de CNPJ (novo formato alfanumérico)
 console.log(isValidCNPJ('9L.VBX.IIJ/0POW-08')); // true
@@ -100,16 +97,10 @@ console.log(isValidCNPJ('O0O6Q7X1CXHE83')); // true
 
 // Formatação de CNPJ (novo formato alfanumérico)
 console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
-console.log(formatCNPJ('A1B2C3D4E', true)); // 'A1.B2C.3D4/E'
 
 // Formatação de documento com detecção automática
 console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
 console.log(formatDocument('52998224725')); // '529.982.247-25'
-console.log(formatDocument('A1B2C3D4E5F', true)); // 'A1.B2C.3D4/E5F' = CNPJ alfanumérico com tamanho de CPF
-console.log(formatDocument('52998', true)); // '529.98'
-console.log(formatDocument('45283163000', true)); // '452.831.630-00' = CNPJ numérico com tamanho de CPF,
-                                                  //                    temporariamente formatado como CPF
-console.log(formatDocument('452831630001', true)); // '45.283.163/0001'
 ```
 
 ## API
@@ -123,12 +114,11 @@ Valida se um número de CPF é válido.
 - **cpf**: O número de CPF a ser validado (pode estar formatado ou conter apenas números)
 - **Retorna**: True se o CPF for válido, false caso contrário
 
-#### `formatCPF(cpf: string, maskMode: boolean = false): string`
+#### `formatCPF(cpf: string): string`
 
 Formata um número de CPF com a máscara padrão (XXX.XXX.XXX-XX).
 
 - **cpf**: O número de CPF a ser formatado (pode estar formatado ou conter apenas números)
-- **maskMode**: Define se CPFs incompletos devem ou não serem formatados parcialmente
 - **Retorna**: O CPF formatado ou uma string vazia se for inválido
 
 #### `cleanCPF(cpf: string): string`
@@ -147,12 +137,11 @@ Valida se um número de CNPJ é válido (suporta tanto o formato numérico tradi
 - **cnpj**: O número de CNPJ a ser validado (pode estar formatado ou conter apenas números/letras)
 - **Retorna**: True se o CNPJ for válido, false caso contrário
 
-#### `formatCNPJ(cnpj: string, maskMode: boolean = false): string`
+#### `formatCNPJ(cnpj: string): string`
 
 Formata um número de CNPJ com a máscara padrão (XX.XXX.XXX/XXXX-XX).
 
 - **cnpj**: O número de CNPJ a ser formatado (pode estar formatado ou conter apenas números/letras)
-- **maskMode**: Define se CNPJs incompletos devem ou não serem formatados parcialmente
 - **Retorna**: O CNPJ formatado ou uma string vazia se for inválido
 
 #### `cleanCNPJ(cnpj: string): string`
@@ -173,16 +162,11 @@ Valida se um número de documento é um CPF ou CNPJ válido.
 - **document**: O número do documento a ser validado (pode estar formatado ou conter apenas números/letras)
 - **Retorna**: True se o documento for um CPF ou CNPJ válido, false caso contrário
 
-#### `formatDocument(document: string, maskMode: boolean = false): string`
+#### `formatDocument(document: string): string`
 
 Formata um número de documento como CPF ou CNPJ com base em suas características.
 
-Com `maskMode` definido como `true` e o `document` conter somente números a máscara parcial aplicada é de CPF,
-após atingir o limite de caracteres de um CPF ela é alterada automaticamente para CNPJ, se documento conter
-letras a máscara CNPJ é utilizada como padrão.
-
 - **document**: O número do documento a ser formatado (pode estar formatado ou conter apenas números/letras)
-- **maskMode**: Define se documentos incompletos devem ou não serem formatados parcialmente
 - **Retorna**: O documento formatado ou uma string vazia se for inválido
 
 ### Funções Utilitárias
@@ -238,7 +222,6 @@ pnpm add cnpj-cpf-validator
 
 - Validation of CPF and CNPJ numbers
 - Formatting of CPF and CNPJ numbers with standard masks
-- Gradual formatting of CPF and CNPJ numbers for use in input fields.
 - Cleaning of CPF and CNPJ numbers (removal of non-numeric characters)
 - TypeScript support with type definitions
 - Zero dependencies
@@ -274,13 +257,13 @@ The Brazilian Federal Revenue Service announced changes to the CNPJ format that 
 ### JavaScript (CommonJS)
 
 ```javascript
-const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } = require('cnpj-cpf-validator');
+const { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } = require('cnpj-cpf-validator');
 ```
 
 ### JavaScript (ES Modules)
 
 ```javascript
-import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ } from 'cnpj-cpf-validator';
+import { isValidCPF, formatCPF, isValidCNPJ, formatCNPJ, formatDocument } from 'cnpj-cpf-validator';
 ```
 
 ### Usage Examples
@@ -312,11 +295,6 @@ console.log(formatCNPJ('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
 // Document formatting with automatic detection
 console.log(formatDocument('A1B2C3D4E5F6G7H801')); // 'A1.B2C.3D4/E5F6-01'
 console.log(formatDocument('52998224725')); // '529.982.247-25'
-console.log(formatDocument('A1B2C3D4E5F', true)); // 'A1.B2C.3D4/E5F' = Alphanumeric CNPJ with the size of a CPF.
-console.log(formatDocument('52998', true)); // '529.98'
-console.log(formatDocument('45283163000', true)); // '452.831.630-00' = Alphanumeric CNPJ with the size of a CPF,
-                                                  //                    temporarily formatted as a CPF.
-console.log(formatDocument('452831630001', true)); // '45.283.163/0001'
 ```
 
 ## API
@@ -330,12 +308,11 @@ Validates if a CPF number is valid.
 - **cpf**: The CPF number to be validated (can be formatted or contain only numbers)
 - **Returns**: True if the CPF is valid, false otherwise
 
-#### `formatCPF(cpf: string, maskMode: boolean = false): string`
+#### `formatCPF(cpf: string): string`
 
 Formats a CPF number with the standard mask (XXX.XXX.XXX-XX).
 
 - **cpf**: The CPF number to be formatted (can be formatted or contain only numbers)
-- **maskMode**: Defines whether incomplete CPFs should be partially formatted or not.
 - **Returns**: The formatted CPF or an empty string if invalid
 
 #### `cleanCPF(cpf: string): string`
@@ -354,12 +331,11 @@ Validates if a CNPJ number is valid (supports both the traditional numeric forma
 - **cnpj**: The CNPJ number to be validated (can be formatted or contain only numbers/letters)
 - **Returns**: True if the CNPJ is valid, false otherwise
 
-#### `formatCNPJ(cnpj: string, maskMode: boolean = false): string`
+#### `formatCNPJ(cnpj: string): string`
 
 Formats a CNPJ number with the standard mask (XX.XXX.XXX/XXXX-XX).
 
 - **cnpj**: The CNPJ number to be formatted (can be formatted or contain only numbers/letters)
-- **maskMode**: Defines whether incomplete CNPJs should be partially formatted or not.
 - **Returns**: The formatted CNPJ or an empty string if invalid
 
 #### `cleanCNPJ(cnpj: string): string`
@@ -380,16 +356,11 @@ Validates if a document number is a valid CPF or CNPJ.
 - **document**: The document number to be validated (can be formatted or contain only numbers/letters)
 - **Returns**: True if the document is a valid CPF or CNPJ, false otherwise
 
-#### `formatDocument(document: string, maskMode: boolean = false): string`
+#### `formatDocument(document: string): string`
 
 Formats a document number as CPF or CNPJ based on its characteristics.
 
-With `maskMode` set to `true` and `document` containing only numbers, the partial mask applied is CPF,
-once the CPF character limit is reached it automatically switches to CNPJ. If the document contains
-letters, the CNPJ mask is used as default.
-
 - **document**: The document number to be formatted (can be formatted or contain only numbers/letters)
-- **maskMode**: Defines whether incomplete documents should be partially formatted or not.
 - **Returns**: The formatted document or an empty string if invalid
 
 ### Utility Functions
