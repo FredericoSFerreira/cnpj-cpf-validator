@@ -79,16 +79,38 @@ export function isValidCPF(cpf: string): boolean {
 /**
  * Formats a CPF number with the standard mask (XXX.XXX.XXX-XX)
  * @param cpf The CPF number to format (can be formatted or just numbers)
+ * @param maskMode Activates formatting gradually
  * @returns The formatted CPF or an empty string if invalid
  */
-export function formatCPF(cpf: string): string {
+export function formatCPF(cpf: string, maskMode: boolean = false): string {
+  // Clean the CPF appropriately
   const cleanCPF = cleanNumbers(cpf);
 
-  if (cleanCPF.length !== 11) {
+  // CPF size clean
+  const size = cleanCPF.length;
+
+  // Gradual formatting based on user input
+  if (maskMode) {
+
+    // "5", "52" or "529"
+    if (size <= 3) return cleanCPF;
+    // "529.9", "529.98" or "529.982"
+    if (size <= 6) return `${cleanCPF.slice(0, 3)}.${cleanCPF.slice(3)}`;
+    // "529.982.2", "529.982.24" or "529.982.247"
+    if (size <= 9) return `${cleanCPF.slice(0, 3)}.${cleanCPF.slice(3, 6)}.${cleanCPF.slice(6)}`;
+    // Invalid
+    if (size > 11) return '';
+
+  } else if (size !== 11) {
+    // Invalid
     return '';
   }
 
-  return cleanCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  const pattern = maskMode
+    ? /(\d{3})(\d{3})(\d{3})(\d{1,2})/ // "529.982.247-2" or "529.982.247-25"
+    : /(\d{3})(\d{3})(\d{3})(\d{2})/ // Only "529.982.247-25"
+
+  return cleanCPF.replace(pattern, '$1.$2.$3-$4');
 }
 
 /**
@@ -216,21 +238,44 @@ export function isValidCNPJ(cnpj: string): boolean {
 /**
  * Formats a CNPJ number with the standard mask (XX.XXX.XXX/XXXX-XX)
  * @param cnpj The CNPJ number to format (can be formatted or just numbers/letters)
+ * @param maskMode Activates formatting gradually
  * @returns The formatted CNPJ or an empty string if invalid
  */
-export function formatCNPJ(cnpj: string): string {
+export function formatCNPJ(cnpj: string, maskMode: boolean = false): string {
   // Check if the CNPJ has letters
   const hasLetters = /[a-zA-Z]/.test(cnpj);
 
   // Clean the CNPJ appropriately
   const cleanCNPJ = hasLetters ? cleanAlphanumeric(cnpj) : cleanNumbers(cnpj);
 
-  if (cleanCNPJ.length !== 14) {
+  // CNPJ size clean
+  const size = cleanCNPJ.length
+
+  // Gradual formatting based on user input
+  if (maskMode) {
+
+    // "A" or "A1"
+    if (size <= 2) return cleanCNPJ;
+    // "A1.B", "A1.B2" or "A1.B2C"
+    if (size <= 5) return `${cleanCNPJ.slice(0, 2)}.${cleanCNPJ.slice(2)}`;
+    // "A1.B2C.3", "A1.B2C.3D", or "A1.B2C.3D4"
+    if (size <= 8) return `${cleanCNPJ.slice(0, 2)}.${cleanCNPJ.slice(2, 5)}.${cleanCNPJ.slice(5)}`;
+    // "A1.B2C.3D4/E", "A1.B2C.3D4/E5", "A1.B2C.3D4/E5F" or "A1.B2C.3D4/E5F6"
+    if (size <= 12) return `${cleanCNPJ.slice(0, 2)}.${cleanCNPJ.slice(2, 5)}.${cleanCNPJ.slice(5, 8)}/${cleanCNPJ.slice(8, 12)}`;
+    // Invalid
+    if (size > 14) return '';
+
+  } else if (size !== 14) {
+    // Invalid
     return '';
   }
 
+  const pattern = maskMode
+    ? /(.{2})(.{3})(.{3})(.{4})(.{1,2})/ // "A1.B2C.3D4/E5F6-6" or "A1.B2C.3D4/E5F6-68"
+    : /(.{2})(.{3})(.{3})(.{4})(.{2})/ // Only "A1.B2C.3D4/E5F6-68"
+
   // Apply the same mask pattern for both numeric and alphanumeric CNPJs
-  return cleanCNPJ.replace(/(.{2})(.{3})(.{3})(.{4})(.{2})/, '$1.$2.$3/$4-$5');
+  return cleanCNPJ.replace(pattern, '$1.$2.$3/$4-$5');
 }
 
 /**
@@ -281,27 +326,28 @@ export function isValidDocument(document: string): boolean {
 /**
  * Formats a document number as CPF or CNPJ based on its characteristics
  * @param document The document number to format (can be formatted or just numbers/letters)
+ * @param maskMode Activates formatting gradually
  * @returns The formatted document or an empty string if invalid
  */
-export function formatDocument(document: string): string {
+export function formatDocument(document: string, maskMode: boolean = false): string {
   // Check if the document has letters (potential alphanumeric CNPJ)
   const hasLetters = /[a-zA-Z]/.test(document);
 
   if (hasLetters) {
     // For documents with letters, we only support CNPJ formatting
     const clean = cleanAlphanumeric(document);
-    if (clean.length === 14) {
-      return formatCNPJ(document);
+    if (clean.length === 14 || maskMode) {
+      return formatCNPJ(document, maskMode);
     }
-     /* istanbul ignore next */
+    /* istanbul ignore next */
     return '';
   } else {
     // For numeric documents, we support both CPF and CNPJ
     const clean = cleanNumbers(document);
-    if (clean.length === 11) {
-      return formatCPF(clean);
-    } else if (clean.length === 14) {
-      return formatCNPJ(clean);
+    if (clean.length === 11 || (clean.length <= 11 && maskMode)) {
+      return formatCPF(clean, maskMode);
+    } else if (clean.length === 14 || (clean.length <= 14 && maskMode)) {
+      return formatCNPJ(clean, maskMode);
     }
     return '';
   }
